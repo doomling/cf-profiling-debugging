@@ -70,5 +70,6 @@ function TodoList() {
     </div>
   );
 }
+TodoList.whyDidYouRender = true;
 
 export default TodoList;

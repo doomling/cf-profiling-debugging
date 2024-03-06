@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import TodoItem from "./TodoItem";
 import { useEffect, useRef } from "react";
-import AddTask from "./AddTask";
 
 function TodoList() {
   const [tasks, setTasks] = useState([]);
+  const [task, setTask] = useState("");
   const firstRender = useRef(true);
 
   useEffect(() => {
@@ -24,13 +24,14 @@ function TodoList() {
     localStorage.setItem("todos", JSON.stringify(tasks));
   }, [tasks]);
 
-  const addTask = (newTask) => {
-    if (newTask !== "") {
+  const addTask = () => {
+    if (task !== "") {
       const newTasks = [
         ...tasks,
-        { id: Date.now(), text: newTask, completed: false },
+        { id: Date.now(), text: task, completed: false },
       ];
       setTasks([...newTasks]); // spread innecesario
+      setTask("");
     }
   };
 
@@ -48,7 +49,12 @@ function TodoList() {
 
   return (
     <div>
-      <AddTask handleAddTask={addTask} />
+      <input
+        type="text"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+      />
+      <button onClick={addTask}>Add Task</button>
       <ul>
         {tasks.map((task) => {
           return (
